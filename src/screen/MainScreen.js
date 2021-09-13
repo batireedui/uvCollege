@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light } from '@expo-google-fonts/nunito';
 
 import { checkConnected } from '../checknet';
 import NoConnectScreen from './NoConnectScreen';
+import HomeBtn from '../components/HomeBtn';
 export default function MainScreen() {
     const [connectStatus, setConnectStatus] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -24,13 +25,15 @@ export default function MainScreen() {
                     <View style={{ marginHorizontal: 10 }}>
                         <View style={styles.title}>
                             <Text style={styles.titleText}>Бат-Ирээдүй</Text>
-                            <Text style={styles.titleText}>75%</Text>
+                            <Text style={styles.titleText}>95%</Text>
                         </View>
                         <View style={styles.titleS}>
                             <Text style={styles.titleSub}>Мэдээллийн технологич 1.5 жил - 1-р курс</Text>
                         </View>
                     </View>
-                    <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
+                        <HomeBtn txt = "Ирцийн мэдээлэл" style={{backgroundColor: '#7B9FF1'}} icon="wifi-off"/>
+                        <HomeBtn txt = "Үнэлгээ" style={{backgroundColor: '#7B9FF1'}} icon="wifi-off"/>
                     </View>
                 </View>
             ) : <NoConnectScreen onCheck={checkConnected} />
@@ -39,6 +42,13 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
+    HomeBtn:{
+        padding: 20,
+        width: 180,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20
+    },
     title: {
         height: 55,
         backgroundColor: '#880e4f',
