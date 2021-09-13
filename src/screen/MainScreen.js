@@ -32,8 +32,8 @@ export default function MainScreen() {
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
-                        <HomeBtn txt = "Ирцийн мэдээлэл" style={{backgroundColor: '#7B9FF1'}} icon="wifi-off"/>
-                        <HomeBtn txt = "Үнэлгээ" style={{backgroundColor: '#7B9FF1'}} icon="wifi-off"/>
+                        <HomeBtn txt = "Ирцийн мэдээлэл" style={{backgroundColor: '#fff'}} icon={require(`../../assets/ic2.png`)}/>
+                        <HomeBtn txt = "Үнэлгээ" style={{backgroundColor: '#fff'}} icon={require(`../../assets/ic1.png`)}/>
                     </View>
                 </View>
             ) : <NoConnectScreen onCheck={checkConnected} />
