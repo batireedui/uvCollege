@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 const HomeBtn = (props) => {
-    console.log(props);
+//    console.log(props);
 
     return (
         <TouchableOpacity style={[props.style, styles.HomeBtn]} onPress={props.onPress}>

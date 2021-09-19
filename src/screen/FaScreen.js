@@ -72,7 +72,7 @@ const FaScreen = ({navigation}) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
-                        <HomeBtn txt="Ирцийн мэдээлэл" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen')} />
+                        <HomeBtn txt="Ирцийн мэдээлэл" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen', {zo: 1})} />
                         <HomeBtn txt="Үнэлгээ" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
                     <View style={{ margin: 15, height: 200}}>

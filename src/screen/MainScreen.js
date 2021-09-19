@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
 import axios from 'react-native-axios'
 import { checkConnected } from '../checknet';
 import NoConnectScreen from './NoConnectScreen';
 import HomeBtn from '../components/HomeBtn';
-const MainScreen = ({navigation}) => {
+import PhoneContext from '../PhoneContext';
+
+const MainScreen = ({ navigation }) => {
+    
     const [connectStatus, setConnectStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const Unelgee = [
@@ -42,11 +45,10 @@ const MainScreen = ({navigation}) => {
         }
     ]
     const createTwoButtonAlert = (alertTailbar) =>
-    Alert.alert(
-      "Үнэлгээний тухай",
-      alertTailbar,
-    );
-    console.log(Unelgee.map(el => (el.ner)));
+        Alert.alert(
+            "Үнэлгээний тухай",
+            alertTailbar,
+        );
     checkConnected().then(res => {
         setConnectStatus(res)
     });
@@ -61,49 +63,49 @@ const MainScreen = ({navigation}) => {
     } else {
         return (
             connectStatus ? (
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                     <View style={{ marginHorizontal: 10 }}>
                         <View style={styles.title}>
                             <Text style={styles.titleText}>Бат-Ирээдүй</Text>
-                            <Text style={styles.titleText}>95%</Text>
+                            <Text style={styles.titleText}>Гарах</Text>
                         </View>
                         <View style={styles.titleS}>
                             <Text style={styles.titleSub}>Мэдээллийн технологич 1.5 жил - 1-р курс</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
-                        <HomeBtn txt="Ирцийн мэдээлэл" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen')} />
+                        <HomeBtn txt="Ирцийн мэдээлэл" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen', {zo: 1})} />
                         <HomeBtn txt="Үнэлгээ" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
-                    <View style={{ margin: 15, height: 200}}>
+                    <View style={{ margin: 15, height: 200 }}>
                         <Text style={styles.subT}>Өөрийн үнэлгээ хийх</Text>
                         <ScrollView>
-                        {
-                            Unelgee.map(el => (
-                                <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
-                                    <View>
-                                        <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
-                                        <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))
-                        }
+                            {
+                                Unelgee.map(el => (
+                                    <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
+                                        <View>
+                                            <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
+                                            <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                ))
+                            }
                         </ScrollView>
                     </View>
-                    <View style={{ margin: 15, flexGrow:  2}}>
+                    <View style={{ margin: 15, flexGrow: 2 }}>
                         <Text style={styles.subT}>Сүүлийн үнэлгээ</Text>
                         <ScrollView>
-                        {
-                            Unelgee.map(el => (
-                                <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
-                                    <View style={{flex: 1}}>
-                                        <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
-                                        <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
-                                    </View>
-                                    <Text style={[el.dun === "Чадамжтай" ? { backgroundColor: '#008229' } : { backgroundColor: '#ce0b2e', }, styles.listBtn]}>{el.dun}</Text>
-                                </TouchableOpacity>
-                            ))
-                        }
+                            {
+                                Unelgee.map(el => (
+                                    <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
+                                        <View style={{ flex: 1 }}>
+                                            <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
+                                            <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
+                                        </View>
+                                        <Text style={[el.dun === "Чадамжтай" ? { backgroundColor: '#008229' } : { backgroundColor: '#ce0b2e', }, styles.listBtn]}>{el.dun}</Text>
+                                    </TouchableOpacity>
+                                ))
+                            }
                         </ScrollView>
                     </View>
                 </View>

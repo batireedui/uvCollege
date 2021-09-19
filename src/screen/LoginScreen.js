@@ -10,7 +10,6 @@ const LoginScreen = ({ navigation }) => {
         { label: "Эцэг/эх", value: "3" }
     ];
     const LogiNav = (val) => {
-        console.log(val);
         if(val == 1)
         {
             navigation.navigate('TeacherScreen')
