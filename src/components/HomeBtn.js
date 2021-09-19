@@ -5,7 +5,7 @@ const HomeBtn = (props) => {
     console.log(props);
 
     return (
-        <TouchableOpacity style={[props.style, styles.HomeBtn]}>
+        <TouchableOpacity style={[props.style, styles.HomeBtn]} onPress={props.onPress}>
             <Image source={props.icon} style={{ width: 40, height: 60 }} />
             <Text style={{ textAlign: 'center' }}>{props.txt}</Text>
         </TouchableOpacity>

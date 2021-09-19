@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
-import axios from 'react-native-axios'
+
 import { checkConnected } from '../checknet';
 import NoConnectScreen from './NoConnectScreen';
 import HomeBtn from '../components/HomeBtn';
-const MainScreen = ({navigation}) => {
+const FaScreen = ({navigation}) => {
     const [connectStatus, setConnectStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const Unelgee = [
@@ -76,7 +76,7 @@ const MainScreen = ({navigation}) => {
                         <HomeBtn txt="Үнэлгээ" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
                     <View style={{ margin: 15, height: 200}}>
-                        <Text style={styles.subT}>Өөрийн үнэлгээ хийх</Text>
+                        <Text style={styles.subT}>Удахгүй хийгдэх үнэлгээ</Text>
                         <ScrollView>
                         {
                             Unelgee.map(el => (
@@ -111,7 +111,7 @@ const MainScreen = ({navigation}) => {
         )
     }
 }
-export default MainScreen
+export default FaScreen
 const styles = StyleSheet.create({
     listBtn: {
         textAlign: 'center',

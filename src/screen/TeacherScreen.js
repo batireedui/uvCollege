@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
-import axios from 'react-native-axios'
+
 import { checkConnected } from '../checknet';
 import NoConnectScreen from './NoConnectScreen';
 import HomeBtn from '../components/HomeBtn';
-const MainScreen = ({navigation}) => {
+const TeacherScreen = ({ navigation }) => {
     const [connectStatus, setConnectStatus] = useState(false);
     const [loading, setLoading] = useState(false);
     const Unelgee = [
@@ -42,10 +42,10 @@ const MainScreen = ({navigation}) => {
         }
     ]
     const createTwoButtonAlert = (alertTailbar) =>
-    Alert.alert(
-      "Үнэлгээний тухай",
-      alertTailbar,
-    );
+        Alert.alert(
+            "Үнэлгээний тухай",
+            alertTailbar,
+        );
     console.log(Unelgee.map(el => (el.ner)));
     checkConnected().then(res => {
         setConnectStatus(res)
@@ -55,63 +55,45 @@ const MainScreen = ({navigation}) => {
         Nunito_300Light,
         Nunito_800ExtraBold
     });
+    const getCurrentDate = () => {
 
+        var date = new Date().getDate();
+        var month = new Date().getMonth() + 1;
+        var year = new Date().getFullYear();
+
+        //Alert.alert(date + '-' + month + '-' + year);
+        // You can turn it in to your desired format
+        return year + '-' + month + '-' + date;//format: dd-mm-yyyy;
+    }
     if (!fontsLoaded) {
         return <Text>Түр хүлээнэ үү</Text>;
     } else {
         return (
             connectStatus ? (
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                     <View style={{ marginHorizontal: 10 }}>
                         <View style={styles.title}>
-                            <Text style={styles.titleText}>Бат-Ирээдүй</Text>
-                            <Text style={styles.titleText}>95%</Text>
+                            <Text style={styles.titleText}>Ц.Амарбаяр</Text>
+                            <Text style={styles.titleText}>{getCurrentDate()}</Text>
                         </View>
                         <View style={styles.titleS}>
-                            <Text style={styles.titleSub}>Мэдээллийн технологич 1.5 жил - 1-р курс</Text>
+                            <Text style={styles.titleSub}>Багш, автомашины засварчин мэргэжлийн</Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
-                        <HomeBtn txt="Ирцийн мэдээлэл" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen')} />
-                        <HomeBtn txt="Үнэлгээ" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
+                        <HomeBtn txt="Ирцийн мэдээлэл оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen')} />
+                        <HomeBtn txt="Явцын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
-                    <View style={{ margin: 15, height: 200}}>
-                        <Text style={styles.subT}>Өөрийн үнэлгээ хийх</Text>
-                        <ScrollView>
-                        {
-                            Unelgee.map(el => (
-                                <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
-                                    <View>
-                                        <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
-                                        <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))
-                        }
-                        </ScrollView>
-                    </View>
-                    <View style={{ margin: 15, flexGrow:  2}}>
-                        <Text style={styles.subT}>Сүүлийн үнэлгээ</Text>
-                        <ScrollView>
-                        {
-                            Unelgee.map(el => (
-                                <TouchableOpacity key={el.ner} style={styles.list} onPress={() => createTwoButtonAlert(el.tailbar)}>
-                                    <View style={{flex: 1}}>
-                                        <Text style={{ fontFamily: 'Nunito_700Bold', }}>{el.ner}</Text>
-                                        <Text style={{ fontFamily: 'Nunito_300Light', fontSize: 10 }}>{el.chn}</Text>
-                                    </View>
-                                    <Text style={[el.dun === "Чадамжтай" ? { backgroundColor: '#008229' } : { backgroundColor: '#ce0b2e', }, styles.listBtn]}>{el.dun}</Text>
-                                </TouchableOpacity>
-                            ))
-                        }
-                        </ScrollView>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
+                        <HomeBtn txt="Өмнөх мэдлэг ур чадварын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic3.png`)} onPress={() => navigation.navigate('IrcScreen')} />
+                        <HomeBtn txt="Үнэлгээний шалгуур үзүүлэлт оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic4.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
                 </View>
             ) : <NoConnectScreen onCheck={checkConnected} />
         )
     }
 }
-export default MainScreen
+export default TeacherScreen
 const styles = StyleSheet.create({
     listBtn: {
         textAlign: 'center',
