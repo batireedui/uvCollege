@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 const { width, height } = Dimensions.get("screen");
 
-const Input = ({ icon, size, placeholder, onChangeText }) => {
+const Input = ({ icon, size, placeholder, onChangeText, invalue, sec }) => {
   const [inFocus, setInFocus] = useState(false);
 
   return (
@@ -30,6 +30,8 @@ const Input = ({ icon, size, placeholder, onChangeText }) => {
       </View>
       <View style={styles.input}>
         <TextInput
+          value = {invalue}
+          secureTextEntry={sec}
           onFocus={() => setInFocus(true)}
           onBlur={() => setInFocus(false)}
           style={{ fontSize: 14 }}

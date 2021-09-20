@@ -8,39 +8,74 @@ import HomeBtn from '../components/HomeBtn';
 const TeacherScreen = ({ navigation }) => {
     const [connectStatus, setConnectStatus] = useState(false);
     const [loading, setLoading] = useState(false);
-    const Unelgee = [
+
+    const unelsen = [
         {
-            ner: "АМ-ны  хөдөлгүүрийг тайлж авах",
-            chn: "АМ-ны хөдөлгүүрт засвар хийх",
+            ner: "Хосломол хөдөлгүүрийн ялгааг тогтоосон",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
             dun: "Чадамжтай",
             tailbar: "Үнэлгээний тайлбар"
         },
         {
-            ner: "АМ-ны хөдөлгүүрийг цэвэрлэх ",
-            chn: "АМ-ны хөдөлгүүрт засвар хийх",
+            ner: "Ажиллах зарчмыг тайлбарласан",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
             dun: "ХЧЭ",
             tailbar: "Үнэлгээний тайлбар"
         },
         {
-            ner: "Тахир голт шатуны механизмын үзлэг хийх ",
-            chn: "АМ-ны хөдөлгүүрт засвар хийх",
+            ner: "Тахир гол шатуны механизмын эд ангийн үүрэг бүтцийг оновчтой хэлсэн ",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
             dun: "ХЧЭ",
             tailbar: "Үнэлгээний тайлбар"
         }
         ,
         {
-            ner: "Хий хуваарилах механизмд үзлэг хийх",
-            chn: "АМ-ны хөдөлгүүрт засвар хийх",
+            ner: "Хөдөлгүүрийн үндсэн үзүүлэлтүүдийг нэрлэсэн",
+            chn: "Механизмын ажиллах зарчмыг тайлбарласан ",
             dun: "Чадамжтай",
             tailbar: "Үнэлгээний тайлбар"
         },
         {
-            ner: "Хий хуваарилах механизмд үзлэг хийх.",
-            chn: "АМ-ны хөдөлгүүрт засвар хийх",
+            ner: "Ажлын дараалалыг ялгасан",
+            chn: "Хөдөлгөөнгүй эд ангиудыг нэрлэсэн",
             dun: "Чадамжтай",
             tailbar: "Үнэлгээний тайлбар"
         }
     ]
+    const Unelgee = [
+        {
+            ner: "ДШХ-ийн төрлийг ялгасан",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
+            dun: "Чадамжтай",
+            tailbar: "Үнэлгээний тайлбар"
+        },
+        {
+            ner: "ДШХ-ийг нэрлэсэн",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
+            dun: "ХЧЭ",
+            tailbar: "Үнэлгээний тайлбар"
+        },
+        {
+            ner: "Хөдөлгүүрийн үндсэн үзүүлэлтүүдийг ялгасан",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
+            dun: "ХЧЭ",
+            tailbar: "Үнэлгээний тайлбар"
+        }
+        ,
+        {
+            ner: "Хөдөлгүүрийн үндсэн үзүүлэлтүүдийг нэрлэсэн",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
+            dun: "Чадамжтай",
+            tailbar: "Үнэлгээний тайлбар"
+        },
+        {
+            ner: "Ажлын дараалалыг ялгасан",
+            chn: "Автомашины бүтэц зохион байгуулалтыг тайлбарлах",
+            dun: "Чадамжтай",
+            tailbar: "Үнэлгээний тайлбар"
+        }
+    ]
+    
     const createTwoButtonAlert = (alertTailbar) =>
         Alert.alert(
             "Үнэлгээний тухай",
@@ -83,6 +118,10 @@ const TeacherScreen = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Ирцийн мэдээлэл оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('IrcScreen', {zo: 2})} />
                         <HomeBtn txt="Явцын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('DunScreen')} />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
+                        <HomeBtn txt="Идэвх оролцоо" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('IrcScreen')} />
+                        <HomeBtn txt="Бие даалт" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic5.png`)} onPress={() => navigation.navigate('DunScreen')} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Өмнөх мэдлэг ур чадварын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic3.png`)} onPress={() => navigation.navigate('IrcScreen')} />
