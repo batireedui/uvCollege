@@ -9,6 +9,9 @@ import DunScreen from './src/screen/DunScreen';
 import TeacherScreen from './src/screen/TeacherScreen';
 import FaScreen from './src/screen/FaScreen';
 import { PhoneValue } from './src/PhoneContext';
+import InsertIrc from './src/screen/InsertIrc';
+import InsertYvc from './src/screen/InsertYvc';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -32,6 +35,8 @@ export default function App() {
           <Stack.Screen name="IrcScreen" component={IrcScreen} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="TeacherScreen" component={TeacherScreen} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="DunScreen" component={DunScreen} options={{ title: "Өвөрхангай ПК" }} />
+          <Stack.Screen name="InsertIrc" component={InsertIrc} options={{ title: "Өвөрхангай ПК" }} />
+          <Stack.Screen name="InsertYvc" component={InsertYvc} options={{ title: "Өвөрхангай ПК" }} />
         </Stack.Navigator>
       </PhoneValue>
     </NavigationContainer>
