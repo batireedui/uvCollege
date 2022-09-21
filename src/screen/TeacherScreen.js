@@ -38,11 +38,11 @@ const TeacherScreen = ({ navigation }) => {
                     <Header />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Ирцийн мэдээлэл оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('InsertIrc')} />
-                        <HomeBtn txt="Явцын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('InsertYvc')} />
+                        <HomeBtn txt="Манай анги" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('InsertYvc')} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
-                        <HomeBtn txt="Идэвх оролцоо" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('')} />
-                        <HomeBtn txt="Бие даалт" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic5.png`)} onPress={() => navigation.navigate('')} />
+                        <HomeBtn txt="Ангиуд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('')} />
+                        <HomeBtn txt="Хичээлүүд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic5.png`)} onPress={() => navigation.navigate('')} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Өмнөх мэдлэг ур чадварын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic3.png`)} onPress={() => navigation.navigate('')} />

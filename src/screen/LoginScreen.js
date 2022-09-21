@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import { Input, Header, Button, Icon } from "../components/login";
+import { MyContext } from "../context/MyContext";
 const LoginScreen = ({ navigation }) => {
     const [lval, setLval] = useState(1);
     const [phone, setPhone] = useState("88992842");
-    const [pass, setPass] = useState("1");
+    const [pass, setPass] = useState("123");
+    const state = useContext(MyContext);
     const options = [
         { label: "Багш", value: "1" },
         { label: "Суралцагч", value: "2" },
@@ -28,7 +30,11 @@ const LoginScreen = ({ navigation }) => {
         console.log(phone);
     }
     console.log(phone);
-    const LogiNav = (val) => {
+    
+    const LogiNav = async () => {
+        await state.loginUser(phone, pass, lval);
+    }
+    const sss = (val) => {
         if (val == 1) {
             navigation.navigate('TeacherScreen')
         }

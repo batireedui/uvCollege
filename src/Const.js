@@ -1,1 +1,1 @@
-export const serverUrl = "https://uvgandan.mn/collegeapi/";
+export const serverUrl = "http://uv-college.mn/api/";

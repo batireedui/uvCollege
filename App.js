@@ -11,13 +11,13 @@ import FaScreen from './src/screen/FaScreen';
 import { PhoneValue } from './src/PhoneContext';
 import InsertIrc from './src/screen/InsertIrc';
 import InsertYvc from './src/screen/InsertYvc';
-
+import MyContextProvider from './src/context/MyContext';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <PhoneValue>
+      <MyContextProvider>
         <Stack.Navigator
           initialRouteName="LoginScreen"
           screenOptions={{
@@ -38,7 +38,7 @@ export default function App() {
           <Stack.Screen name="InsertIrc" component={InsertIrc} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="InsertYvc" component={InsertYvc} options={{ title: "Өвөрхангай ПК" }} />
         </Stack.Navigator>
-      </PhoneValue>
+      </MyContextProvider>
     </NavigationContainer>
   );
 }

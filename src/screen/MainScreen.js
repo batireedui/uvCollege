@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Modal } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
-import axios from 'react-native-axios'
 import { checkConnected } from '../checknet';
 import NoConnectScreen from './NoConnectScreen';
 import HomeBtn from '../components/HomeBtn';
