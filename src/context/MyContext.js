@@ -70,6 +70,7 @@ const MyContextProvider = props => {
     }
 
     const isLoggedInSa = async () => {
+        console.log("SisLogin");
         const loginToken = AsyncStorage.getItem('loginToken');
         // If inside the local-storage has the JWT token
         if (loginToken) {

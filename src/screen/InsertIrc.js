@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useContext } from 'react'
-import { StyleSheet, Text, View, Alert, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
 
 import Header from '../components/Header'
 import { serverUrl } from '../Const'
@@ -25,11 +25,27 @@ const InsertIrc = () => {
     const [too, setToo] = useState("");
     const [btn, setBtn] = useState(false);
     const [studentList, setStudentList] = useState([]);
+
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+
     function toJSONLocal(date) {
         var local = new Date(date);
         local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         return local.toJSON().slice(0, 10);
     }
+
+    const showMode = (currentMode) => {
+        if (Platform.OS === 'android') {
+            setShow(true);
+            // for iOS, add a button that closes the picker
+        }
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
 
     useEffect(() => {
         setLoad(true);
@@ -43,6 +59,9 @@ const InsertIrc = () => {
         }
     }, []);
     useEffect(() => {
+        if (Platform.OS === 'ios') {
+            setShow(true);
+        }
         axios.post(serverUrl + "teacherlesson.php", {
             "tid": parseInt(state.theUser.id),
         })
@@ -53,7 +72,6 @@ const InsertIrc = () => {
         }
     }, []);
     const checkIrc = () => {
-        console.log(selectCag);
         if (selectClass == "0") {
             Alert.alert("Хичээл орсон ангиа сонгоно уу!");
         }
@@ -64,7 +82,7 @@ const InsertIrc = () => {
             Alert.alert("Цагаа сонгоно уу!");
         }
         else {
-            setError("");
+            setLoad(true);
             axios.post(serverUrl + "checkirc.php", {
                 "selectDate": toJSONLocal(selectDate),
                 "selectClass": selectClass,
@@ -72,7 +90,6 @@ const InsertIrc = () => {
                 "teacherid": state.theUser.id,
             })
                 .then(data => {
-                    console.log(data.data);
                     setStudentList(data.data);
                     if (typeof (data.data) === "string" && data.data === "duplicate") {
                         Alert.alert("Та " + toJSONLocal(selectDate) + " өдрийн " + selectCag + "-р цагт өөр ангид хичээлийн бүртгэл хийсэн байна.");
@@ -100,14 +117,16 @@ const InsertIrc = () => {
                         setToo("Нийт " + data.data.length + " суралцагч.");
                         setBtn(true);
                     }
+                    setLoad(false);
                 })
-                .catch(err => { console.log(err); });
+                .catch(err => { console.log(err); setLoad(false);});
 
         }
     };
 
     const dateChange = (event, selectedDate) => {
         const currentDate = selectedDate;
+        setShow(false);
         setSelectDate(currentDate);
         setStudentList("nodata");
         setBtn(false);
@@ -134,9 +153,7 @@ const InsertIrc = () => {
                 .then(data => {
                     console.log(data.data);
                     if (data.data == "1") {
-                        setModalText("Ирцийн мэдээлэл амжилттай бүртгэгдлээ.");
-                        setModalinfoState(true);
-                        setBtn(false);
+                        Alert.alert("Ирцийн мэдээлэл амжилттай бүртгэгдлээ.");
                     }
 
                 })
@@ -177,105 +194,129 @@ const InsertIrc = () => {
         setBtn(false);
     }
     return (
-        <View>
+        <View style={{flex:1}}>
             <Header />
-            <SelectList
-                setSelected={setSelectClass}
-                placeholder="Ангиа сонгоно уу"
-                search={false}
-                boxStyles={styles.dropbox}
-                dropdownStyles={styles.drop}
-                dropdownItemStyles={styles.dropitem}
-                dropdownTextStyles={styles.droptext}
-                onSelect={() => changeVal()}
-                data={myclass !== "nodata" ? myclass.length > 0 ?
-                    myclass.map((el, index) => (
-                        { key: el.id, value: el.name }
-                    )
-                    ) : [] : []}
-            />
-            <SelectList
-                setSelected={setSelectLesson}
-                placeholder="Хичээлээ сонгоно уу"
-                search={false}
-                boxStyles={styles.dropbox}
-                dropdownStyles={styles.drop}
-                dropdownItemStyles={styles.dropitem}
-                dropdownTextStyles={styles.droptext}
-                onSelect={() => changeVal()}
-                data={mylesson !== "nodata" ? mylesson.length > 0 ?
-                    mylesson.map((el, index) => (
-                        { value: el.lessonName, key: el.id }
-                    )
-                    ) : [] : []}
-            />
-            <View style={{ marginHorizontal: 16, marginTop: 8, justifyContent: 'center', flexDirection: 'row' }}>
-                <View style={{ flex: 1, justifyContent: 'center' }}><Text style={{ fontWeight: 'bold' }}>Өдрөө сонгоно уу</Text></View>
-                <View style={{ flex: 1 }}>
-                    <DateTimePicker
-                        value={selectDate}
-                        mode="date"
-                        onChange={dateChange} />
+            <View>
+                <SelectList
+                    setSelected={setSelectClass}
+                    placeholder="Ангиа сонгоно уу"
+                    search={false}
+                    boxStyles={styles.dropbox}
+                    dropdownStyles={styles.drop}
+                    dropdownItemStyles={styles.dropitem}
+                    dropdownTextStyles={styles.droptext}
+                    onSelect={() => changeVal()}
+                    data={myclass !== "nodata" ? myclass.length > 0 ?
+                        myclass.map((el, index) => (
+                            { key: el.id, value: el.name }
+                        )
+                        ) : [] : []}
+                />
+                <SelectList
+                    setSelected={setSelectLesson}
+                    placeholder="Хичээлээ сонгоно уу"
+                    search={false}
+                    boxStyles={styles.dropbox}
+                    dropdownStyles={styles.drop}
+                    dropdownItemStyles={styles.dropitem}
+                    dropdownTextStyles={styles.droptext}
+                    onSelect={() => changeVal()}
+                    data={mylesson !== "nodata" ? mylesson.length > 0 ?
+                        mylesson.map((el, index) => (
+                            { value: el.lessonName, key: el.id }
+                        )
+                        ) : [] : []}
+                />
+                <View style={{ marginHorizontal: 16, marginTop: 8, justifyContent: 'center', flexDirection: 'row' }}>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        {
+                            Platform.OS === 'android' ?
+                                <TouchableOpacity
+                                    onPress={showDatepicker}
+                                    style={{ backgroundColor: "#D8D8D8", alignItems: 'center', padding: 5, borderRadius: 5 }}>
+                                    <Text>Өдрөө сонгоно уу</Text>
+                                </TouchableOpacity>
+                                : <Text style={{ fontWeight: 'bold' }}>Өдрөө сонгоно уу</Text>
+                        }
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        {
+                            Platform.OS === 'android' ?
+                                <View style={{ alignItems: 'center' }}>
+                                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{toJSONLocal(selectDate)}</Text>
+                                </View>
+                                : null
+                        }
+                        {show && (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={selectDate}
+                                mode={mode}
+                                onChange={dateChange}
+                            />
+                        )}
+                    </View>
+                </View>
+                <SelectList
+                    setSelected={setSelectCag}
+                    placeholder="Цагаа сонгоно уу"
+                    search={false}
+                    boxStyles={styles.dropbox}
+                    dropdownStyles={styles.drop}
+                    dropdownItemStyles={styles.dropitem}
+                    dropdownTextStyles={styles.droptext}
+                    onSelect={() => changeVal()}
+                    data={[
+                        { value: "1-р цаг", key: "1" },
+                        { value: "2-р цаг", key: "2" },
+                        { value: "3-р цаг", key: "3" },
+                        { value: "4-р цаг", key: "4" },
+                        { value: "5-р цаг", key: "5" },
+                        { value: "6-р цаг", key: "6" },
+                        { value: "7-р цаг", key: "7" },
+                        { value: "8-р цаг", key: "8" },
+                    ]}
+                />
+                <View style={{ marginVertical: 10 }}>
+                    <MyButton title="ШАЛГАХ" onPress={() => checkIrc()} />
                 </View>
             </View>
-            <SelectList
-                setSelected={setSelectCag}
-                placeholder="Цагаа сонгоно уу"
-                search={false}
-                boxStyles={styles.dropbox}
-                dropdownStyles={styles.drop}
-                dropdownItemStyles={styles.dropitem}
-                dropdownTextStyles={styles.droptext}
-                onSelect={() => changeVal()}
-                data={[
-                    { value: "1-р цаг", key: "1" },
-                    { value: "2-р цаг", key: "2" },
-                    { value: "3-р цаг", key: "3" },
-                    { value: "4-р цаг", key: "4" },
-                    { value: "5-р цаг", key: "5" },
-                    { value: "6-р цаг", key: "6" },
-                    { value: "7-р цаг", key: "7" },
-                    { value: "8-р цаг", key: "8" },
-                ]}
-            />
-            <View style={{ marginVertical: 10 }}>
-                <MyButton title="ШАЛГАХ" onPress={() => checkIrc()} />
-            </View>
-            {load === false ?
-                <ScrollView style={{ height: 400 }}>
-                    {btn && (<View>
-                        <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
-                    </View>)}
-                    {typeof (studentList) !== "string" ?
-                        studentList.length > 0 ?
-                            studentList.map((e, index) =>
-                                <View key={index} style={{ marginHorizontal: 15, marginVertical: 8, backgroundColor: "#d9d9d9", padding: 8, borderRadius: 5 }}>
-                                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-start', }}>
-                                            <Text style={styles.nameText}>{index + 1}. </Text>
-                                            <Text style={styles.nameText}>{e.fname}</Text>
-                                            <Text style={[styles.nameText, {textTransform: 'uppercase'}]}>{e.lname}</Text>
+            <SafeAreaView style={{flex: 1}}>
+                {load === false ?
+                    <ScrollView>
+                        {btn && (<View>
+                            <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
+                        </View>)}
+                        {typeof (studentList) !== "string" ?
+                            studentList.length > 0 ?
+                                studentList.map((e, index) =>
+                                    <View key={index} style={{ marginHorizontal: 15, marginVertical: 8, backgroundColor: "#d9d9d9", padding: 8, borderRadius: 5 }}>
+                                        <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                                            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-start', }}>
+                                                <Text style={styles.nameText}>{index + 1}. </Text>
+                                                <Text style={styles.nameText}>{e.fname}</Text>
+                                                <Text style={[styles.nameText, { textTransform: 'uppercase' }]}>{e.lname}</Text>
+                                            </View>
+                                            <View style={{ backgroundColor: "#fff", paddingHorizontal: 10, paddingVertical: 3, borderRadius: 3 }}>
+                                                {e.tuluv == 1 ? <Text style={[styles.stateText, { color: "#198754" }]}>Ирсэн</Text> :
+                                                    (e.tuluv == 2 ? <Text style={[styles.stateText, { color: "#31D2F2" }]}>Өвчтэй</Text> :
+                                                        (e.tuluv == 3 ? <Text style={[styles.stateText, { color: "#0D6EFD" }]}>Чөлөөтэй</Text> : <Text style={[styles.stateText, { color: "#5C636A" }]}>Тасалсан</Text>))}
+                                            </View></View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                            <TouchableOpacity onPress={() => clickbtn(e.id, 1)} style={[styles.btnStyle, { backgroundColor: "#198754" }]}><Text style={styles.btnText}>Ирсэн</Text></TouchableOpacity>
+                                            <TouchableOpacity onPress={() => clickbtn(e.id, 2)} style={[styles.btnStyle, { backgroundColor: "#31D2F2" }]}><Text style={styles.btnText}>Өвчтэй</Text></TouchableOpacity>
+                                            <TouchableOpacity onPress={() => clickbtn(e.id, 3)} style={[styles.btnStyle, { backgroundColor: "#0D6EFD" }]}><Text style={styles.btnText}>Чөлөөтэй</Text></TouchableOpacity>
+                                            <TouchableOpacity onPress={() => clickbtn(e.id, 4)} style={[styles.btnStyle, { backgroundColor: "#5C636A" }]}><Text style={styles.btnText}>Тасалсан</Text></TouchableOpacity>
                                         </View>
-                                        <View style={{ backgroundColor: "#fff", paddingHorizontal: 10, paddingVertical: 3, borderRadius: 3 }}>
-                                            {e.tuluv == 1 ? <Text style={[styles.stateText, { color: "#198754" }]}>Ирсэн</Text> :
-                                                (e.tuluv == 2 ? <Text style={[styles.stateText, { color: "#31D2F2" }]}>Өвчтэй</Text> :
-                                                    (e.tuluv == 3 ? <Text style={[styles.stateText, { color: "#0D6EFD" }]}>Чөлөөтэй</Text> : <Text style={[styles.stateText, { color: "#5C636A" }]}>Тасалсан</Text>))}
-                                        </View></View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                        <TouchableOpacity onPress={() => clickbtn(e.id, 1)} style={[styles.btnStyle, { backgroundColor: "#198754" }]}><Text style={styles.btnText}>Ирсэн</Text></TouchableOpacity>
-                                        <TouchableOpacity onPress={() => clickbtn(e.id, 2)} style={[styles.btnStyle, { backgroundColor: "#31D2F2" }]}><Text style={styles.btnText}>Өвчтэй</Text></TouchableOpacity>
-                                        <TouchableOpacity onPress={() => clickbtn(e.id, 3)} style={[styles.btnStyle, { backgroundColor: "#0D6EFD" }]}><Text style={styles.btnText}>Чөлөөтэй</Text></TouchableOpacity>
-                                        <TouchableOpacity onPress={() => clickbtn(e.id, 4)} style={[styles.btnStyle, { backgroundColor: "#5C636A" }]}><Text style={styles.btnText}>Тасалсан</Text></TouchableOpacity>
                                     </View>
-                                </View>
-                            )
-                            : null : null
-                    }
-                    {btn && (<View>
-                        <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
-                    </View>)}
-                </ScrollView>
-                : <Spinning />}
+                                )
+                                : null : null
+                        }
+                        {btn && (<View>
+                            <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
+                        </View>)}
+                    </ScrollView>
+                    : <Spinning />}</SafeAreaView>
         </View>
     )
 }
