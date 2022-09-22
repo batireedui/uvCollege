@@ -1,29 +1,29 @@
 import React, { useState, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
-import { Input, Header, Button, Icon } from "../components/login";
+import { Input, Header, MyButton, Icon } from "../components/login";
 import { MyContext } from "../context/MyContext";
 const LoginScreen = ({ navigation }) => {
-    const [lval, setLval] = useState(1);
+    const [lval, setLval] = useState(0);
     const [phone, setPhone] = useState("88992842");
     const [pass, setPass] = useState("123");
     const state = useContext(MyContext);
     const options = [
-        { label: "Багш", value: "1" },
-        { label: "Суралцагч", value: "2" },
-        { label: "Эцэг/эх", value: "3" }
+        { label: "Багш", value: "0" },
+        //{ label: "Суралцагч", value: "1" },
+        { label: "Эцэг/эх", value: "2" }
     ];
 
     const valSet = (val) => {
         console.log(val);
         
-        if (val == 1) {
+        if (val == 0) {
             setPhone("88992842");
         }
-        else if (val == 2) {
+        else if (val == 1) {
             setPhone("99323156");
         }
-        else if (val == 3) {
+        else if (val == 2) {
             setPhone("88776655");
         }
         setLval(val);
@@ -33,17 +33,6 @@ const LoginScreen = ({ navigation }) => {
     
     const LogiNav = async () => {
         await state.loginUser(phone, pass, lval);
-    }
-    const sss = (val) => {
-        if (val == 1) {
-            navigation.navigate('TeacherScreen')
-        }
-        else if (val == 2) {
-            navigation.navigate('MainScreen')
-        }
-        else if (val == 3) {
-            navigation.navigate('FaScreen')
-        }
     }
     return (
         <View style={styles.container}>
@@ -55,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
                     <SwitchSelector
                         options={options}
                         initial={0}
-                        buttonColor={"#880e4f"}
+                        ButtonColor={"#880e4f"}
                         borderColor={"#880e4f"}
                         hasPadding
                         onPress={value => valSet(value) }
@@ -66,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
                     <Input icon="md-person" placeholder="Нэвтрэх нэр" invalue={phone} />
                     <Input icon="lock-closed" placeholder="Нууц үг" invalue={pass} sec={true} />
                 </View>
-                <Button title="Нэвтрэх" onPress={() => LogiNav(lval)} />
+                <MyButton title="Нэвтрэх" onPress={() => LogiNav(lval)} />
             </View>
         </View>
     );

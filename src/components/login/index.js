@@ -1,6 +1,6 @@
 import Input from "./input";
 import Header from "./header";
-import Button from "./button";
+import MyButton from "./MyButton";
 import Icon from "./Icon";
 
-export { Input, Header, Button, Icon };
+export { Input, Header, MyButton, Icon };

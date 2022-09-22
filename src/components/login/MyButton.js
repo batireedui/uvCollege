@@ -9,7 +9,7 @@ import {
 
 const { width, height } = Dimensions.get("screen");
 
-const Button = ({ title, onPress, background }) => (
+const MyButton = ({ title, onPress, background }) => (
   <View style={styles.container}>
     <TouchableOpacity
       style={[
@@ -28,11 +28,9 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 25,
   },
   button: {
     padding: 10,
-    paddingHorizontal: 20,
     borderRadius: 20,
     width: width/1.2,
     alignItems: "center",
@@ -44,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Button;
+export default MyButton;

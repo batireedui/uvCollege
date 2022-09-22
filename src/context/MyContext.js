@@ -19,12 +19,12 @@ const MyContextProvider = props => {
         setIsAuth(false);
         
     }
-    useEffect(() => {
+    /*useEffect(() => {
         AsyncStorage.getItem('loginToken') ? isLoggedIn() : setIsAuth(false);
         return () => {
             
         }
-    }, [])
+    }, [])*/
     
     const loginUser = (phone, password, teach) => {
         setuserType(teach);
@@ -36,7 +36,7 @@ const MyContextProvider = props => {
         }).then(res => {
             if (res.data.success && res.data.token) {
                 AsyncStorage.setItem('loginToken', res.data.token);
-                if(teach === 1){
+                if(teach === 0){
                     isLoggedIn();
                 } 
                 else isLoggedInSa();  
@@ -49,6 +49,7 @@ const MyContextProvider = props => {
 
     // Checking user logged in or not
     const isLoggedIn = async () => {
+        console.log("TisLogin");
         const loginToken = await AsyncStorage.getItem('loginToken');
         // If inside the local-storage has the JWT token
         if (loginToken) {

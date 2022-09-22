@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
-
+import { MyContext } from '../context/MyContext';
 import { checkConnected } from '../checknet';
 const Header = () => {
-
+    const state = useContext(MyContext);
     let [fontsLoaded] = useFonts({
         Nunito_700Bold,
         Nunito_300Light,
@@ -26,7 +26,7 @@ const Header = () => {
         return (
             <View style={{ marginHorizontal: 10 }}>
                 <View style={styles.title}>
-                    <Text style={styles.titleText}>Ц.Амарбаяр</Text>
+                    <Text style={styles.titleText}>{state.theUser.lname}</Text>
                     <Text style={styles.titleText}>{getCurrentDate()}</Text>
                 </View>
                 <View style={styles.titleS}>

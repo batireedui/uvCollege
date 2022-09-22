@@ -11,6 +11,8 @@ import FaScreen from './src/screen/FaScreen';
 import { PhoneValue } from './src/PhoneContext';
 import InsertIrc from './src/screen/InsertIrc';
 import InsertYvc from './src/screen/InsertYvc';
+import TeacherClass from './src/screen/TeacherClass';
+import TeacherLesson from './src/screen/TeacherLesson';
 import MyContextProvider from './src/context/MyContext';
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +39,8 @@ export default function App() {
           <Stack.Screen name="DunScreen" component={DunScreen} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="InsertIrc" component={InsertIrc} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="InsertYvc" component={InsertYvc} options={{ title: "Өвөрхангай ПК" }} />
+          <Stack.Screen name="TeacherClass" component={TeacherClass} options={{ title: "Өвөрхангай ПК" }} />
+          <Stack.Screen name="TeacherLesson" component={TeacherLesson} options={{ title: "Өвөрхангай ПК" }} />
         </Stack.Navigator>
       </MyContextProvider>
     </NavigationContainer>

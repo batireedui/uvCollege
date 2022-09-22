@@ -1,23 +1,30 @@
 import React, { createContext, useEffect, useState, useContext } from 'react'
-import { StyleSheet, Text, View, Alert } from 'react-native'
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ScrollView } from 'react-native'
 
 import Header from '../components/Header'
 import { serverUrl } from '../Const'
-import RNPickerSelect from 'react-native-picker-select';
 import axios from 'react-native-axios'
 import { MyContext } from "../context/MyContext";
-import { Input, Button, Icon } from "../components/login";
-import MyDatePicker from '../components/MyDatePicker';
+import { Input, MyButton, Icon } from "../components/login";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import SelectList from 'react-native-dropdown-select-list'
+import Spinning from '../components/Spinning'
 const InsertIrc = () => {
     const state = useContext(MyContext);
-    const [myclass, setmyclass] = useState([]);
     const [load, setLoad] = useState(false);
+    const [myclass, setmyclass] = useState([]);
+
     const [mylesson, setmylesson] = useState([]);
+
+    const [selectDate, setSelectDate] = useState(new Date());
+    const [selectCag, setSelectCag] = useState("1");
+    const [selectLesson, setSelectLesson] = useState("0");
+    const [selectClass, setSelectClass] = useState(0);
+
     const [error, setError] = useState("");
     const [too, setToo] = useState("");
     const [btn, setBtn] = useState(false);
-    const [selectDate, setSelectDate] = useState(new Date());
-
+    const [studentList, setStudentList] = useState([]);
     function toJSONLocal(date) {
         var local = new Date(date);
         local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
@@ -46,11 +53,15 @@ const InsertIrc = () => {
         }
     }, []);
     const checkIrc = () => {
+        console.log(selectCag);
         if (selectClass == "0") {
-            setError("Хичээл орсон ангиа сонгоно уу!");
+            Alert.alert("Хичээл орсон ангиа сонгоно уу!");
         }
         else if (selectLesson == "0") {
-            setError("Хичээлээ сонгоно уу!");
+            Alert.alert("Хичээлээ сонгоно уу!");
+        }
+        else if (selectCag == "0") {
+            Alert.alert("Цагаа сонгоно уу!");
         }
         else {
             setError("");
@@ -94,60 +105,177 @@ const InsertIrc = () => {
 
         }
     };
+
+    const dateChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setSelectDate(currentDate);
+        setStudentList("nodata");
+        setBtn(false);
+    };
+    const sendIrc = () => {
+        if (selectClass == "0") {
+            Alert.alert("Хичээл орсон ангиа сонгоно уу!");
+        }
+        else if (selectLesson == "0") {
+            Alert.alert("Хичээлээ сонгоно уу!");
+        }
+        else if (selectCag == "0") {
+            Alert.alert("Цагаа сонгоно уу!");
+        }
+        else {
+            axios.post(serverUrl + "studentircadd.php", {
+                "ircObj": studentList,
+                "selectLesson": selectLesson,
+                "selectDate": toJSONLocal(selectDate),
+                "selectClass": selectClass,
+                "selectCag": selectCag,
+                "teacherid": state.theUser.id,
+            })
+                .then(data => {
+                    console.log(data.data);
+                    if (data.data == "1") {
+                        setModalText("Ирцийн мэдээлэл амжилттай бүртгэгдлээ.");
+                        setModalinfoState(true);
+                        setBtn(false);
+                    }
+
+                })
+                .catch(err => { setError("err") });
+        }
+    };
+
+    let temparrstudent = [];
+    let aa = 1;
+
+    const clickbtn = (id, btn) => {
+        //console.log(id + "--" + btn);
+        let i1 = 0;
+        let i2 = 0;
+        let i3 = 0;
+        let i4 = 0;
+        temparrstudent = [...studentList];
+        for (const ele of temparrstudent) {
+            if (ele.id === id) {
+                ele.tuluv = btn;
+            }
+            if (ele.tuluv == 1)
+                i1++;
+            else if (ele.tuluv == 2)
+                i2++;
+            else if (ele.tuluv == 3)
+                i3++;
+            else
+                i4++;
+        }
+        let sum = i1 + i2 + i3 + i4;
+        setToo("Нийт: " + sum + " Ирсэн: " + i1 + " Өвчтэй: " + i2 + " Чөлөөтэй: " + i3 + " Тасалсан: " + i4);
+        setStudentList(temparrstudent);
+    };
+
+    const changeVal = () => {
+        setStudentList("nodata");
+        setBtn(false);
+    }
     return (
         <View>
             <Header />
-            <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                placeholder={{
-                    label: 'Ангиа сонгоно уу', value: null,
-                    color: '#9EA0A4',
-                }}
-                style={pickerSelectStyles}
-                items={
-                    myclass !== "nodata" ? myclass.length > 0 ?
-                        myclass.map((el, index) => (
-                            { label: el.name, value: el.id }
-                        )
-                        ) : [] : []
-                }
+            <SelectList
+                setSelected={setSelectClass}
+                placeholder="Ангиа сонгоно уу"
+                search={false}
+                boxStyles={styles.dropbox}
+                dropdownStyles={styles.drop}
+                dropdownItemStyles={styles.dropitem}
+                dropdownTextStyles={styles.droptext}
+                onSelect={() => changeVal()}
+                data={myclass !== "nodata" ? myclass.length > 0 ?
+                    myclass.map((el, index) => (
+                        { key: el.id, value: el.name }
+                    )
+                    ) : [] : []}
             />
-            <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                placeholder={{
-                    label: 'Хичээлээ сонгоно уу', value: null,
-                    color: '#9EA0A4',
-                }}
-                style={pickerSelectStyles}
-                items={
-                    mylesson !== "nodata" ? mylesson.length > 0 ?
-                        mylesson.map((el, index) => (
-                            { label: el.lessonName, value: el.id }
-                        )
-                        ) : [] : []
-                }
+            <SelectList
+                setSelected={setSelectLesson}
+                placeholder="Хичээлээ сонгоно уу"
+                search={false}
+                boxStyles={styles.dropbox}
+                dropdownStyles={styles.drop}
+                dropdownItemStyles={styles.dropitem}
+                dropdownTextStyles={styles.droptext}
+                onSelect={() => changeVal()}
+                data={mylesson !== "nodata" ? mylesson.length > 0 ?
+                    mylesson.map((el, index) => (
+                        { value: el.lessonName, key: el.id }
+                    )
+                    ) : [] : []}
             />
-            
-            <RNPickerSelect
-                onValueChange={(value) => console.log(value)}
-                placeholder={{
-                    label: 'Цагаа сонгоно уу', value: null,
-                    color: '#9EA0A4',
-                }}
-                style={pickerSelectStyles}
-                items={[
-                    { label: "1-р цаг", value: "1" },
-                    { label: "2-р цаг", value: "2" },
-                    { label: "3-р цаг", value: "3" },
-                    { label: "4-р цаг", value: "4" },
-                    { label: "5-р цаг", value: "5" },
-                    { label: "6-р цаг", value: "6" },
-                    { label: "7-р цаг", value: "7" },
-                    { label: "8-р цаг", value: "8" },
+            <View style={{ marginHorizontal: 16, marginTop: 8, justifyContent: 'center', flexDirection: 'row' }}>
+                <View style={{ flex: 1, justifyContent: 'center' }}><Text style={{ fontWeight: 'bold' }}>Өдрөө сонгоно уу</Text></View>
+                <View style={{ flex: 1 }}>
+                    <DateTimePicker
+                        value={selectDate}
+                        mode="date"
+                        onChange={dateChange} />
+                </View>
+            </View>
+            <SelectList
+                setSelected={setSelectCag}
+                placeholder="Цагаа сонгоно уу"
+                search={false}
+                boxStyles={styles.dropbox}
+                dropdownStyles={styles.drop}
+                dropdownItemStyles={styles.dropitem}
+                dropdownTextStyles={styles.droptext}
+                onSelect={() => changeVal()}
+                data={[
+                    { value: "1-р цаг", key: "1" },
+                    { value: "2-р цаг", key: "2" },
+                    { value: "3-р цаг", key: "3" },
+                    { value: "4-р цаг", key: "4" },
+                    { value: "5-р цаг", key: "5" },
+                    { value: "6-р цаг", key: "6" },
+                    { value: "7-р цаг", key: "7" },
+                    { value: "8-р цаг", key: "8" },
                 ]}
             />
-            <Button title="ШАЛГАХ" onPress={() => checkIrc()} />
-            <MyDatePicker/>
+            <View style={{ marginVertical: 10 }}>
+                <MyButton title="ШАЛГАХ" onPress={() => checkIrc()} />
+            </View>
+            {load === false ?
+                <ScrollView style={{ height: 400 }}>
+                    {btn && (<View>
+                        <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
+                    </View>)}
+                    {typeof (studentList) !== "string" ?
+                        studentList.length > 0 ?
+                            studentList.map((e, index) =>
+                                <View key={index} style={{ marginHorizontal: 15, marginVertical: 8, backgroundColor: "#d9d9d9", padding: 8, borderRadius: 5 }}>
+                                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-start', }}>
+                                            <Text style={styles.nameText}>{index + 1}. </Text>
+                                            <Text style={styles.nameText}>{e.fname}</Text>
+                                            <Text style={[styles.nameText, {textTransform: 'uppercase'}]}>{e.lname}</Text>
+                                        </View>
+                                        <View style={{ backgroundColor: "#fff", paddingHorizontal: 10, paddingVertical: 3, borderRadius: 3 }}>
+                                            {e.tuluv == 1 ? <Text style={[styles.stateText, { color: "#198754" }]}>Ирсэн</Text> :
+                                                (e.tuluv == 2 ? <Text style={[styles.stateText, { color: "#31D2F2" }]}>Өвчтэй</Text> :
+                                                    (e.tuluv == 3 ? <Text style={[styles.stateText, { color: "#0D6EFD" }]}>Чөлөөтэй</Text> : <Text style={[styles.stateText, { color: "#5C636A" }]}>Тасалсан</Text>))}
+                                        </View></View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                        <TouchableOpacity onPress={() => clickbtn(e.id, 1)} style={[styles.btnStyle, { backgroundColor: "#198754" }]}><Text style={styles.btnText}>Ирсэн</Text></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => clickbtn(e.id, 2)} style={[styles.btnStyle, { backgroundColor: "#31D2F2" }]}><Text style={styles.btnText}>Өвчтэй</Text></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => clickbtn(e.id, 3)} style={[styles.btnStyle, { backgroundColor: "#0D6EFD" }]}><Text style={styles.btnText}>Чөлөөтэй</Text></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => clickbtn(e.id, 4)} style={[styles.btnStyle, { backgroundColor: "#5C636A" }]}><Text style={styles.btnText}>Тасалсан</Text></TouchableOpacity>
+                                    </View>
+                                </View>
+                            )
+                            : null : null
+                    }
+                    {btn && (<View>
+                        <MyButton title="ХАДГАЛАХ" onPress={() => sendIrc()} background="#ff8301" />
+                    </View>)}
+                </ScrollView>
+                : <Spinning />}
         </View>
     )
 }
@@ -155,34 +283,32 @@ const InsertIrc = () => {
 export default InsertIrc
 
 const styles = StyleSheet.create({
-    listBtn: {
-        borderWidth: 1,
-        color: '#000'
+    stateText: {
+        textTransform: 'uppercase',
+        fontWeight: 'bold'
     },
-})
-
-const pickerSelectStyles = StyleSheet.create({
-    inputIOS: {
-        marginTop: 8,
-        marginHorizontal: 16,
-        fontSize: 16,
-        paddingVertical: 12,
-        paddingHorizontal: 10,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 4,
-        color: 'black',
-        paddingRight: 30 // to ensure the text is never behind the icon
+    btnStyle: {
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderRadius: 15,
     },
-    inputAndroid: {
-        margin: 16,
+    btnText: {
+        color: "#fff"
+    },
+    nameText: {
         fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'purple',
-        borderRadius: 8,
-        color: 'black',
-        paddingRight: 30 // to ensure the text is never behind the icon
+        marginRight: 3
+    },
+    dropbox: {
+        borderRadius: 5, marginHorizontal: 16, marginTop: 8
+    },
+    drop: {
+        borderRadius: 5, marginHorizontal: 16, marginTop: -1, paddingVertical: 0, marginVertical: 0, backgroundColor: '#ececec'
+    },
+    dropitem: {
+        borderRadius: 5, marginTop: 3, paddingVertical: 5, marginVertical: 0
+    },
+    droptext: {
+        color: 'gray'
     }
-});
+})

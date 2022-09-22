@@ -41,13 +41,14 @@ const TeacherScreen = ({ navigation }) => {
                         <HomeBtn txt="Манай анги" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('InsertYvc')} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
-                        <HomeBtn txt="Ангиуд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('')} />
-                        <HomeBtn txt="Хичээлүүд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic5.png`)} onPress={() => navigation.navigate('')} />
+                        <HomeBtn txt="Ангиуд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('TeacherClass')} />
+                        <HomeBtn txt="Хичээлүүд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic5.png`)} onPress={() => navigation.navigate('TeacherLesson')} />
                     </View>
+                    {/*
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Өмнөх мэдлэг ур чадварын үнэлгээ хийх" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic3.png`)} onPress={() => navigation.navigate('')} />
                         <HomeBtn txt="Үнэлгээний шалгуур үзүүлэлт оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic4.png`)} onPress={() => navigation.navigate('')} />
-                    </View>
+            </View>*/}
                 </View>
             ) : <NoConnectScreen onCheck={checkConnected} />
         )
