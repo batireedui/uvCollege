@@ -126,7 +126,9 @@ const InsertIrc = () => {
 
     const dateChange = (event, selectedDate) => {
         const currentDate = selectedDate;
-        setShow(false);
+        if (Platform.OS === 'android') {
+            setShow(false);
+        }
         setSelectDate(currentDate);
         setStudentList("nodata");
         setBtn(false);
