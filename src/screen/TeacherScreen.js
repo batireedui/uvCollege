@@ -38,7 +38,7 @@ const TeacherScreen = ({ navigation }) => {
                     <Header />
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Ирцийн мэдээлэл оруулах" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic2.png`)} onPress={() => navigation.navigate('InsertIrc')} />
-                        <HomeBtn txt="Манай анги" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('InsertYvc')} />
+                        <HomeBtn txt="Манай анги" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic1.png`)} onPress={() => navigation.navigate('TeacherMyClass')} />
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15, flexWrap: 'wrap' }}>
                         <HomeBtn txt="Ангиуд" style={{ backgroundColor: '#fff' }} icon={require(`../../assets/ic6.png`)} onPress={() => navigation.navigate('TeacherClass')} />

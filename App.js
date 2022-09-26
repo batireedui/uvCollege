@@ -14,6 +14,7 @@ import InsertYvc from './src/screen/InsertYvc';
 import TeacherClass from './src/screen/TeacherClass';
 import TeacherLesson from './src/screen/TeacherLesson';
 import MyContextProvider from './src/context/MyContext';
+import TeacherMyClass from './src/screen/TeacherMyClass';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
           <Stack.Screen name="InsertYvc" component={InsertYvc} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="TeacherClass" component={TeacherClass} options={{ title: "Өвөрхангай ПК" }} />
           <Stack.Screen name="TeacherLesson" component={TeacherLesson} options={{ title: "Өвөрхангай ПК" }} />
+          <Stack.Screen name="TeacherMyClass" component={TeacherMyClass} options={{ title: "Өвөрхангай ПК" }} />
         </Stack.Navigator>
       </MyContextProvider>
     </NavigationContainer>

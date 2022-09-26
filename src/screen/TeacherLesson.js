@@ -31,7 +31,7 @@ const TeacherLesson = () => {
 
   const refdata = () => {
     setLoad(true);
-    axios.post(serverUrl + "teacherlesson.php", {
+    axios.post(serverUrl + "teacherlessonconf.php", {
       "tid": parseInt(state.theUser.id),
     })
       .then(data => { setirc(data.data); setLoad(false); })

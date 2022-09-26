@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View, Button } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
-const MyDatePicker = () => {
+const MyDatePicker = (props) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
-  };
+  function toJSONLocal(date) {
+    var local = new Date(date);
+    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return local.toJSON().slice(0, 10);
+  }
 
   const showMode = (currentMode) => {
     if (Platform.OS === 'android') {
-      setShow(false);
+      setShow(true);
       // for iOS, add a button that closes the picker
     }
     setMode(currentMode);
@@ -24,18 +24,46 @@ const MyDatePicker = () => {
     showMode('date');
   };
 
+  const dateChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    if (Platform.OS === 'android') {
+      setShow(false);
+    }
+    setfognoo(currentDate);
+  };
+
   return (
     <View>
-      <Button onPress={showDatepicker} title="Show date picker!" />
-      <Text>selected: {date.toLocaleString()}</Text>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          onChange={onChange}
-        />
-      )}
+      <View style={{ marginHorizontal: 16, marginTop: 8, justifyContent: 'center', flexDirection: 'row' }}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          {
+            Platform.OS === 'android' ?
+              <TouchableOpacity
+                onPress={showDatepicker}
+                style={{ backgroundColor: "#D8D8D8", alignItems: 'center', padding: 5, borderRadius: 5 }}>
+                <Text>Өдрөө сонгоно уу</Text>
+              </TouchableOpacity>
+              : <Text style={{ fontWeight: 'bold' }}>Өдрөө сонгоно уу</Text>
+          }
+        </View>
+        <View style={{ flex: 1 }}>
+          {
+            Platform.OS === 'android' ?
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{toJSONLocal(props.value)}</Text>
+              </View>
+              : null
+          }
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={props.value}
+              mode={mode}
+              onChange={props.onChange}
+            />
+          )}
+        </View>
+      </View>
     </View>
   );
 }
