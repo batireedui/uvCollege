@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import SwitchSelector from "react-native-switch-selector";
 import { Input, Header, MyButton, Icon } from "../components/login";
 import { MyContext } from "../context/MyContext";
@@ -50,10 +50,11 @@ const LoginScreen = ({ navigation }) => {
                         onPress={value => valSet(value) }
                     />
                 </View>
-
+                
                 <View>
-                    <Input icon="md-person" placeholder="Нэвтрэх нэр" invalue={phone} />
-                    <Input icon="lock-closed" placeholder="Нууц үг" invalue={pass} sec={true} />
+                    <Input icon="md-person" placeholder="Нэвтрэх нэр" invalue={phone} onChangeText={setPhone}/>
+                    <Input icon="lock-closed" placeholder="Нууц үг" invalue={pass} sec={true} onChangeText={setPass} />
+                    <Text style={{textAlign: "center", marginBottom: 10, color: "red"}}>{state.msg}</Text>
                 </View>
                 <MyButton title="Нэвтрэх" onPress={() => LogiNav(lval)} />
             </View>

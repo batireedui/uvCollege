@@ -30,7 +30,7 @@ const Header = () => {
                     <Text style={styles.titleText}>{getCurrentDate()}</Text>
                 </View>
                 <View style={styles.titleS}>
-                    <Text style={styles.titleSub}>Багш, автомашины засварчин мэргэжлийн</Text>
+                    <Text style={styles.titleSub}>{state.theUser.at}</Text>
                 </View>
             </View>
         )

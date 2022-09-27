@@ -25,9 +25,7 @@ const TeacherMyClass = () => {
         return local.toJSON().slice(0, 10);
     }
     useEffect(() => {
-        if (Platform.OS === 'ios') {
-            setShow(true);
-        }
+        
         axios.post(serverUrl + "myClass.php", {
             "tid": state.theUser.id,
             "fognoo": toJSONLocal(fognoo),
@@ -49,38 +47,8 @@ const TeacherMyClass = () => {
     return (
         <View style={{ flex: 1 }}>
             <Header />
-            <Text>TeacherMyClass</Text>
-            <View style={{ marginHorizontal: 16, marginTop: 8, justifyContent: 'center', flexDirection: 'row' }}>
-                <View style={{ flex: 1, justifyContent: 'center' }}>
-                    {
-                        Platform.OS === 'android' ?
-                            <TouchableOpacity
-                                onPress={showDatepicker}
-                                style={{ backgroundColor: "#D8D8D8", alignItems: 'center', padding: 5, borderRadius: 5 }}>
-                                <Text>Өдрөө сонгоно уу</Text>
-                            </TouchableOpacity>
-                            : <Text style={{ fontWeight: 'bold' }}>Өдрөө сонгоно уу</Text>
-                    }
-                </View>
-                <View style={{ flex: 1 }}>
-                    {
-                        Platform.OS === 'android' ?
-                            <View style={{ alignItems: 'center' }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{toJSONLocal(fognoo)}</Text>
-                            </View>
-                            : null
-                    }
-                    {show && (
-                        <DateTimePicker
-                            testID="dateTimePicker"
-                            value={fognoo}
-                            mode={mode}
-                            onChange={dateChange}
-                        />
-                    )}
-                </View>
-            </View>
-            <MyDatePicker value={fognoo} onChange={dateChange}/>
+            <MyDatePicker value={fognoo} onChange={setfognoo}/>
+            <MyDatePicker value={lognoo} onChange={setlognoo}/>
         </View>
     )
 }

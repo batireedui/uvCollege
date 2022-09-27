@@ -1,10 +1,17 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 const MyDatePicker = (props) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      setShow(true);
+    }
+  }, [])
+
 
   function toJSONLocal(date) {
     var local = new Date(date);
@@ -29,7 +36,7 @@ const MyDatePicker = (props) => {
     if (Platform.OS === 'android') {
       setShow(false);
     }
-    setfognoo(currentDate);
+    props.onChange(currentDate);
   };
 
   return (
@@ -59,7 +66,7 @@ const MyDatePicker = (props) => {
               testID="dateTimePicker"
               value={props.value}
               mode={mode}
-              onChange={props.onChange}
+              onChange={dateChange}
             />
           )}
         </View>

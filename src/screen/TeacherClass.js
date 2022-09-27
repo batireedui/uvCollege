@@ -78,7 +78,7 @@ const TeacherClass = () => {
                             <View style={{ width: 100 }}>
                                 <SwitchSelector
                                     options={[{ label: "Үгүй", value: 0 }, { label: "Тийм", value: 1 }]}
-                                    initial={myclass.filter(el => el.id == e.id).length > 0 ? 1 : 0}
+                                    initial={myclass=="nodata" ? 0 : myclass.filter(el => el.id == e.id).length > 0 ? 1 : 0}
                                     ButtonColor={"#880e4f"}
                                     height={25}
                                     hasPadding
