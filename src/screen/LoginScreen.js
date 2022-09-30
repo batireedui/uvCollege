@@ -21,10 +21,10 @@ const LoginScreen = ({ navigation }) => {
             setPhone("88992842");
         }
         else if (val == 1) {
-            setPhone("99323156");
+            setPhone("88351112");
         }
         else if (val == 2) {
-            setPhone("88776655");
+            setPhone("88351112");
         }
         setLval(val);
         console.log(phone);

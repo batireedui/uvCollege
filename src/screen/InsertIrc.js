@@ -17,7 +17,7 @@ const InsertIrc = () => {
     const [mylesson, setmylesson] = useState([]);
 
     const [selectDate, setSelectDate] = useState(new Date());
-    const [selectCag, setSelectCag] = useState("1");
+    const [selectCag, setSelectCag] = useState(0);
     const [selectLesson, setSelectLesson] = useState("0");
     const [selectClass, setSelectClass] = useState(0);
 
@@ -269,14 +269,14 @@ const InsertIrc = () => {
                     dropdownTextStyles={styles.droptext}
                     onSelect={() => changeVal()}
                     data={[
-                        { value: "1-р цаг", key: "1" },
-                        { value: "2-р цаг", key: "2" },
-                        { value: "3-р цаг", key: "3" },
-                        { value: "4-р цаг", key: "4" },
-                        { value: "5-р цаг", key: "5" },
-                        { value: "6-р цаг", key: "6" },
-                        { value: "7-р цаг", key: "7" },
-                        { value: "8-р цаг", key: "8" },
+                        { value: "1-р цаг", key: 1 },
+                        { value: "2-р цаг", key: 2 },
+                        { value: "3-р цаг", key: 3 },
+                        { value: "4-р цаг", key: 4 },
+                        { value: "5-р цаг", key: 5 },
+                        { value: "6-р цаг", key: 6 },
+                        { value: "7-р цаг", key: 7 },
+                        { value: "8-р цаг", key: 8 },
                     ]}
                 />
                 <View style={{ marginVertical: 10 }}>
