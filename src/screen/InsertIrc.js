@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState, useContext } from 'react'
-import { StyleSheet, Text, View, Alert, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, Alert, TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native'
 
 import Header from '../components/Header'
 import { serverUrl } from '../Const'
@@ -119,7 +119,7 @@ const InsertIrc = () => {
                     }
                     setLoad(false);
                 })
-                .catch(err => { console.log(err); setLoad(false);});
+                .catch(err => { console.log(err); setLoad(false); });
 
         }
     };
@@ -191,12 +191,23 @@ const InsertIrc = () => {
         setStudentList(temparrstudent);
     };
 
+    const clickIdevh = (id, btn) => {
+        //console.log(id + "--" + btn);
+        temparrstudent = [...studentList];
+        for (const ele of temparrstudent) {
+            if (ele.id === id) {
+                ele.idevh = btn;
+            }
+        }
+        setStudentList(temparrstudent);
+    };
+
     const changeVal = () => {
         setStudentList("nodata");
         setBtn(false);
     }
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <Header />
             <View>
                 <SelectList
@@ -283,7 +294,7 @@ const InsertIrc = () => {
                     <MyButton title="ШАЛГАХ" onPress={() => checkIrc()} />
                 </View>
             </View>
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{ flex: 1 }}>
                 {load === false ?
                     <ScrollView>
                         {btn && (<View>
@@ -309,6 +320,17 @@ const InsertIrc = () => {
                                             <TouchableOpacity onPress={() => clickbtn(e.id, 2)} style={[styles.btnStyle, { backgroundColor: "#31D2F2" }]}><Text style={styles.btnText}>Өвчтэй</Text></TouchableOpacity>
                                             <TouchableOpacity onPress={() => clickbtn(e.id, 3)} style={[styles.btnStyle, { backgroundColor: "#0D6EFD" }]}><Text style={styles.btnText}>Чөлөөтэй</Text></TouchableOpacity>
                                             <TouchableOpacity onPress={() => clickbtn(e.id, 4)} style={[styles.btnStyle, { backgroundColor: "#5C636A" }]}><Text style={styles.btnText}>Тасалсан</Text></TouchableOpacity>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 5 }}>
+                                            <TouchableOpacity onPress={() => clickIdevh(e.id, 0)} style={[styles.btnStyle, { backgroundColor: "#fff", opacity: e.idevh == 0 ? 1 : 0.5}]}>
+                                                <Image source={require(`../../assets/emoji/0.jpg`)} style={{ width: 40, height: 40 }} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => clickIdevh(e.id, 1)} style={[styles.btnStyle, { backgroundColor: "#fff", opacity: e.idevh == 1 ? 1 : 0.5 }]}>
+                                                <Image source={require(`../../assets/emoji/1.jpg`)} style={{ width: 40, height: 40 }} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => clickIdevh(e.id, 2)} style={[styles.btnStyle, { backgroundColor: "#fff", opacity: e.idevh == 2 ? 1 : 0.5 }]}>
+                                                <Image source={require(`../../assets/emoji/2.jpg`)} style={{ width: 40, height: 40 }} />
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )

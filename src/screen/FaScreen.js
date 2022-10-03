@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ScrollView, Image } from 'react-native'
 import { useFonts, Nunito_700Bold, Nunito_300Light, Nunito_800ExtraBold } from '@expo-google-fonts/nunito';
 
 import { checkConnected } from '../checknet';
@@ -88,6 +88,9 @@ const FaScreen = ({ navigation }) => {
                                                         (el.state == 2 ? <Text style={[styles.stText, { backgroundColor: "#31D2F2" }]}>Өвчтэй</Text> :
                                                             (el.state == 3 ? <Text style={[styles.stText, { backgroundColor: "#0D6EFD" }]}>Чөлөөтэй</Text> : <Text style={[styles.stText, { backgroundColor: "#5C636A" }]}>Тасалсан</Text>))}
                                                 </View>
+                                                <TouchableOpacity>
+                                                    <Image source={require(`../../assets/emoji/0.jpg`)} style={{ width: 25, height: 25 }} />
+                                                </TouchableOpacity>
                                             </TouchableOpacity>
                                         )) : <Text style={{ color: 'red', marginTop: 15 }}>Ирцийн мэдээлэл бүртгэгдээгүй байна</Text> : <Text style={{ color: 'red', marginTop: 15 }}>Ирцийн мэдээлэл бүртгэгдээгүй байна</Text>
                             }
