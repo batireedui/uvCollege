@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "uvCollege",
+    "name": "ӨВПК",
     "slug": "uvCollege",
+    "description": "Өвөрхангай аймаг дахь Политехник коллеж",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
